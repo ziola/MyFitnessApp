@@ -5,22 +5,25 @@ package com.ziola.myfitnessapp.model;
  */
 public enum ROOM {
 
-    STUDIO("Studio", 0),
-    FLOOR("Gym floor", 1);
+    STUDIO("Studio"),
+    FLOOR("Gym Floor");
 
     private final String name;
-    private final int priority;
 
-    ROOM(String name, int priority) {
+    ROOM(String name) {
         this.name = name;
-        this.priority = priority;
     }
 
-    public String getName(){
+    public static ROOM get(String value) {
+        for (ROOM room : values()) {
+            if (room.getName().equals(value)) {
+                return room;
+            }
+        }
+        throw new IllegalArgumentException(value + " is not associated with any value of " + ROOM.class.getCanonicalName());
+    }
+
+    public String getName() {
         return this.name;
-    }
-
-    public int getPriority(){
-        return this.priority;
     }
 }

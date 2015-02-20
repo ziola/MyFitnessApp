@@ -5,30 +5,35 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.ziola.myfitnessapp.R;
 import com.ziola.myfitnessapp.async.DownloadHandlerActivity;
 import com.ziola.myfitnessapp.async.DownloadSchedule;
 import com.ziola.myfitnessapp.fragment.ScheduleFragment;
+import com.ziola.myfitnessapp.model.Schedule;
 
 
-public class MainActivity extends Activity implements DownloadHandlerActivity {
+public class MainActivity extends FragmentActivity {
 
-    private static final String TAG = MainActivity.class.toString();
-
-    private ScheduleFragment schedule = new ScheduleFragment();
+    SchedulePagerAdapter mSchedulePagerAdapter;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, schedule).commit();
-        }
 
+        mSchedulePagerAdapter = new SchedulePagerAdapter(getFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance();
+        //manager.registerReceiver();
         if(isNetworkAvailable()){
-            DownloadSchedule ds = new DownloadSchedule(this);
+            DownloadSchedule ds = new DownloadSchedule(getApplicationContext());
             ds.execute();
         }
 
@@ -40,8 +45,4 @@ public class MainActivity extends Activity implements DownloadHandlerActivity {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    @Override
-    public void handleResult(Object data) {
-        schedule.updateView((String)data);
-    }
 }

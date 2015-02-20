@@ -1,8 +1,8 @@
 package com.ziola.myfitnessapp.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,18 +10,36 @@ import java.util.List;
  */
 public class DailySchedule {
 
-    public List<Class> getClasses() {
-        return classes;
+    private List<Class> studioClasses = new ArrayList<>();
+    private List<Class> floorClasses = new ArrayList<>();
+    private Date date;
+
+    public void addClass(Class newClass, ROOM type) throws IllegalArgumentException {
+        switch(type){
+            case FLOOR:
+                this.floorClasses.add(newClass);
+                Collections.sort(this.floorClasses, Class.ClassComparator);
+                break;
+            case STUDIO:
+                this.studioClasses.add(newClass);
+                Collections.sort(this.studioClasses, Class.ClassComparator);
+                break;
+        }
     }
 
-    public void setClasses(List<Class> classes) {
-        this.classes = classes;
+    public void addStudioClass(Class newClass){
+        addClass(newClass, ROOM.STUDIO);
     }
 
-    public void addClass(Class newClass){
-        this.classes.add(newClass);
-        Collections.sort(this.classes, Class.ClassComparator);
+    public void addFloorClass(Class newClass){
+        addClass(newClass, ROOM.FLOOR);
     }
 
-    private List<Class> classes;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

@@ -7,6 +7,18 @@ import java.util.Comparator;
  */
 public class Class {
 
+    public static final Comparator<Class> ClassComparator = new Comparator<Class>() {
+        @Override
+        public int compare(Class lhs, Class rhs) {
+            return lhs.getStartTime().compareTo(rhs.getStartTime());
+        }
+    };
+    private String name;
+    private String trainer;
+    private String startTime;
+    private String endTime;
+    private ROOM room;
+
     public Class(String name, String trainer, String startTime, String endTime, ROOM room) {
         this.trainer = trainer;
         this.startTime = startTime;
@@ -14,17 +26,6 @@ public class Class {
         this.room = room;
         this.endTime = endTime;
     }
-
-    public static final Comparator<Class> ClassComparator = new Comparator<Class>() {
-        @Override
-        public int compare(Class lhs, Class rhs) {
-            int result = lhs.getStartTime().compareTo(rhs.getStartTime());
-            if(result != 0) {
-                return result;
-            }
-            return lhs.getRoom().getPriority() - rhs.getRoom().getPriority();
-        }
-    };
 
     public String getName() {
         return name;
@@ -65,11 +66,5 @@ public class Class {
     public void setRoom(ROOM room) {
         this.room = room;
     }
-
-    private String name;
-    private String trainer;
-    private String startTime;
-    private String endTime;
-    private ROOM room;
 
 }
