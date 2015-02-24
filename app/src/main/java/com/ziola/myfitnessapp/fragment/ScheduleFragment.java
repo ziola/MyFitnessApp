@@ -4,29 +4,32 @@ package com.ziola.myfitnessapp.fragment;
  * Created by mwypysiak on 2015-02-19.
  */
 
+import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ExpandableListView;
 
 import com.ziola.myfitnessapp.R;
-import com.ziola.myfitnessapp.model.Schedule;
+import com.ziola.myfitnessapp.adapter.ClassesAdapter;
+import com.ziola.myfitnessapp.model.DailySchedule;
+import com.ziola.myfitnessapp.model.SharedData;
 
 public class ScheduleFragment extends Fragment {
 
-    public static final String DAY_DELTA = "DAY_DELTA";
-    private TextView mTvDisplay;
-    private int dayDelta;
+    public static final String DAY = "DAY";
+    private String mDay;
+    private DailySchedule mDailySchedule;
+    private ClassesAdapter mStudioAdapter;
+    private ExpandableListView mLvClasses;
 
-    public static ScheduleFragment newInstance(int dayDelta) {
+
+    public static ScheduleFragment newInstance(String date) {
         ScheduleFragment fragmentFirst = new ScheduleFragment();
         Bundle args = new Bundle();
-        args.putInt(DAY_DELTA, dayDelta);
+        args.putString(DAY, date);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
@@ -34,15 +37,26 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dayDelta = getArguments().getInt(DAY_DELTA, 0);
+        mDay = getArguments().getString(DAY);
+        mDailySchedule = SharedData.schedule.get(mDay);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        mTvDisplay = (TextView) rootView.findViewById(R.id.displayData);
-        mTvDisplay.setText(Integer.toString(dayDelta));
+        View rootView = inflater.inflate(R.layout.fragment_schedule, null);
+        mLvClasses = (ExpandableListView) rootView.findViewById(R.id.lvClasses);
+        mStudioAdapter = new ClassesAdapter(this.getActivity(), mDailySchedule);
+        mLvClasses.setAdapter(mStudioAdapter);
+        mLvClasses.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
+        for (int i = 0; i < mStudioAdapter.getGroupCount(); i++) {
+            mLvClasses.expandGroup(i);
+        }
         return rootView;
     }
 

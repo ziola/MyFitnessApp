@@ -2,13 +2,11 @@ package com.ziola.myfitnessapp.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import com.ziola.myfitnessapp.fragment.ScheduleFragment;
+import com.ziola.myfitnessapp.util.DateHelper;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -16,15 +14,15 @@ import java.util.Calendar;
  */
 public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-
     public SchedulePagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int i) {
-        return ScheduleFragment.newInstance(i);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, i);
+        return ScheduleFragment.newInstance(DateHelper.sdf.format(cal.getTime()));
     }
 
     @Override
@@ -35,8 +33,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         Calendar cal = Calendar.getInstance();
-        DateFormat df = DateFormat.getDateInstance();
-        cal.add(Calendar.DAY_OF_MONTH, position);
-        return sdf.format(cal.getTime());
+        cal.add(Calendar.DATE, position);
+        return DateHelper.sdf.format(cal.getTime());
     }
 }

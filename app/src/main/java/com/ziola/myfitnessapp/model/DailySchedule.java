@@ -14,8 +14,16 @@ public class DailySchedule {
     private List<Class> floorClasses = new ArrayList<>();
     private Date date;
 
+    public List<Class> getStudioClasses() {
+        return studioClasses;
+    }
+
+    public List<Class> getFloorClasses() {
+        return floorClasses;
+    }
+
     public void addClass(Class newClass, ROOM type) throws IllegalArgumentException {
-        switch(type){
+        switch (type) {
             case FLOOR:
                 this.floorClasses.add(newClass);
                 Collections.sort(this.floorClasses, Class.ClassComparator);
@@ -27,11 +35,11 @@ public class DailySchedule {
         }
     }
 
-    public void addStudioClass(Class newClass){
+    public void addStudioClass(Class newClass) {
         addClass(newClass, ROOM.STUDIO);
     }
 
-    public void addFloorClass(Class newClass){
+    public void addFloorClass(Class newClass) {
         addClass(newClass, ROOM.FLOOR);
     }
 
