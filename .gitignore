@@ -24,3 +24,10 @@ proguard/
 
 # Log Files
 *.log
+.idea/codeStyleSettings.xml
+.idea/libraries/support_v13_18_0_0.xml
+.idea/libraries/support_v4_18_0_0.xml
+.idea/misc.xml
+.idea/workspace.xml
+MyFitnessApp.iml
+app/app.iml

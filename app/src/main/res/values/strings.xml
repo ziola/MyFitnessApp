@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Fitness</string>
+    <string name="studio_classes">Zajęcia na sali</string>
+    <string name="floor_classes">Zajęcia na siłowni</string>
+    <string name="className">Zajęcia</string>
+    <string name="trainerName">Prowadzący</string>
+    <string name="time">start - koniec</string>
+    <string name="classType">Rodzaj zajęć</string>
+
+</resources>

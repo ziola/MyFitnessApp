@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.ziola.myfitnessapp"
+        minSdkVersion 21
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+        }
+    }
+}
+
+repositories {
+    mavenCentral() // or jCenter()
+}
+
+dependencies {
+    compile 'com.android.support:support-v13:18.0.+'
+    compile 'org.jsoup:jsoup:1.8.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+}
