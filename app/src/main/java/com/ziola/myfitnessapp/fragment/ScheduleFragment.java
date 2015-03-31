@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 
 import com.ziola.myfitnessapp.R;
@@ -25,6 +26,10 @@ public class ScheduleFragment extends Fragment {
     private ClassesAdapter mStudioAdapter;
     private ExpandableListView mLvClasses;
 
+    private ActionBar actionBar;
+    private int mLastFirstVisibleItem = 0;
+
+
 
     public static ScheduleFragment newInstance(String date) {
         ScheduleFragment fragmentFirst = new ScheduleFragment();
@@ -39,6 +44,7 @@ public class ScheduleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDay = getArguments().getString(DAY);
         mDailySchedule = SharedData.schedule.get(mDay);
+        actionBar = getActivity().getActionBar();
     }
 
     @Override
@@ -57,6 +63,24 @@ public class ScheduleFragment extends Fragment {
         for (int i = 0; i < mStudioAdapter.getGroupCount(); i++) {
             mLvClasses.expandGroup(i);
         }
+        mLvClasses.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(firstVisibleItem == 0 && !actionBar.isShowing()){
+                    actionBar.show();
+                } else if (mLastFirstVisibleItem > firstVisibleItem) {
+                    actionBar.hide();
+                } else {
+                    actionBar.show();
+                }
+                mLastFirstVisibleItem = firstVisibleItem;
+            }
+        });
         return rootView;
     }
 

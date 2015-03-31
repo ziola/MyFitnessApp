@@ -38,11 +38,15 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((List) getGroup(groupPosition)).size();
+        List list = (List) getGroup(groupPosition);
+        return list != null ? list.size() : 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
+        if(schedule == null){
+            return null;
+        }
         switch (groupPosition) {
             case 0:
                 return schedule.getStudioClasses();
@@ -54,13 +58,8 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        switch (groupPosition) {
-            case 0:
-                return schedule.getStudioClasses().get(childPosition);
-            case 1:
-                return schedule.getFloorClasses().get(childPosition);
-        }
-        return null;
+        List group = (List) getGroup(groupPosition);
+        return group != null ? group.get(childPosition) : null;
     }
 
     @Override
@@ -80,7 +79,6 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(_context).inflate(R.layout.item_class_header, parent, false);
         }
@@ -97,21 +95,19 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         Class currentClass = (Class) getChild(groupPosition, childPosition);
-        // Check if an existing view is being reused, otherwise inflate the view
+        if(currentClass == null){
+            return null;
+        }
         if (convertView == null) {
             convertView = LayoutInflater.from(_context).inflate(R.layout.item_class, parent, false);
         }
-        // Lookup view for data population
         TextView tvClassName = (TextView) convertView.findViewById(R.id.tvClassName);
         TextView tvTrainerName = (TextView) convertView.findViewById(R.id.tvTrainerName);
         TextView tvTime = (TextView) convertView.findViewById(R.id.tvTime);
-        // Populate the data into the template view using the data object
         tvClassName.setText(currentClass.getName());
         tvTrainerName.setText(currentClass.getTrainer());
         tvTime.setText(currentClass.getStartTime() + " - " + currentClass.getEndTime());
-        // Return the completed view to render on screen
         return convertView;
     }
 
