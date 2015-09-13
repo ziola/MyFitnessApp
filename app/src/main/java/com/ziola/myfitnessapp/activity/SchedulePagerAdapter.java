@@ -9,6 +9,9 @@ import com.ziola.myfitnessapp.util.DateHelper;
 
 import java.util.Calendar;
 
+import static com.ziola.myfitnessapp.util.DateHelper.dateFormat;
+import static java.util.Calendar.DATE;
+
 /**
  * Created by mwypysiak on 2015-02-20.
  */
@@ -21,8 +24,8 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, i);
-        return ScheduleFragment.newInstance(DateHelper.sdf.format(cal.getTime()));
+        cal.add(DATE, i);
+        return ScheduleFragment.newInstance(dateFormat.format(cal.getTime()));
     }
 
     @Override
@@ -33,7 +36,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, position);
-        return DateHelper.sdf.format(cal.getTime());
+        cal.add(DATE, position);
+        return dateFormat.format(cal.getTime());
     }
 }

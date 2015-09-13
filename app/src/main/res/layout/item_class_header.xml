@@ -15,8 +15,9 @@
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
         android:text="@string/classType"
-        android:textColor="#DA00FF"
+        android:textColor="#C5CAE9"
         android:textSize="24dp"
+        android:textStyle="bold"
         />
 
 </RelativeLayout>

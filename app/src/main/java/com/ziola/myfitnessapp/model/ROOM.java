@@ -6,7 +6,8 @@ package com.ziola.myfitnessapp.model;
 public enum ROOM {
 
     STUDIO("Studio"),
-    FLOOR("Gym Floor");
+    FLOOR("Gym Floor"),
+    CYCLING("Cycling");
 
     private final String name;
 

@@ -19,6 +19,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ziola.myfitnessapp.util.DateHelper.dateFormat;
+import static java.util.Calendar.DATE;
+
 /**
  * Created by mwypysiak on 2015-02-19.
  */
@@ -42,21 +45,21 @@ public class DownloadSchedule extends AsyncTask<Object, String, Map<String, Dail
         Log.i(TAG, "Getting schedule data");
         try {
             Calendar calendar = Calendar.getInstance();
-            String startDate = DateHelper.sdf.format(calendar.getTime());
-            calendar.add(Calendar.DATE, 7);
-            String endDate = DateHelper.sdf.format(calendar.getTime());
+            String startDate = dateFormat.format(calendar.getTime());
+            calendar.add(DATE, 7);
+            String endDate = dateFormat.format(calendar.getTime());
             Document document = Jsoup.connect(SCHEDULE_URL + SCHEDULE_START + startDate + SCHEDULE_END + endDate + GYM_DATA).get();
             Elements children = document.getElementById("mp-timetable-screen-container").children();
             DailySchedule dailySchedule = null;
             for (Element elem : children) {
                 String className = elem.className();
                 if (className.contains("mp-timetable-list-cal")) {
-                    dailySchedule = initDailySchedule(elem, startDate);
+                    dailySchedule = initDailySchedule(elem);
                     continue;
                 }
                 if (className.contains("timetable-list-tab") && dailySchedule != null) {
                     dailySchedule = parseDailySchedule(dailySchedule, elem);
-                    schedule.put(DateHelper.sdf.format(dailySchedule.getDate()), dailySchedule);
+                    schedule.put(dateFormat.format(dailySchedule.getDate()), dailySchedule);
                     continue;
                 }
             }
@@ -81,15 +84,15 @@ public class DownloadSchedule extends AsyncTask<Object, String, Map<String, Dail
         return dailySchedule;
     }
 
-    private DailySchedule initDailySchedule(Element elem, String startDate) {
+    private DailySchedule initDailySchedule(Element elem) {
         int day = Integer.parseInt(elem.child(1).text());
         Calendar calendar = Calendar.getInstance();
-        int currentDay = calendar.get(Calendar.DATE);
+        int currentDay = calendar.get(DATE);
         int toAdd = day - currentDay;
         if (toAdd < 0) {
-            toAdd = calendar.getActualMaximum(Calendar.DATE) - currentDay + day;
+            toAdd = calendar.getActualMaximum(DATE) - currentDay + day;
         }
-        calendar.add(Calendar.DATE, toAdd);
+        calendar.add(DATE, toAdd);
         DailySchedule dailySchedule = new DailySchedule();
         dailySchedule.setDate(calendar.getTime());
         return dailySchedule;

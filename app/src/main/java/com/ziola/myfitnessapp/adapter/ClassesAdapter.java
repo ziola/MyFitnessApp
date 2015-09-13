@@ -14,6 +14,10 @@ import com.ziola.myfitnessapp.model.ROOM;
 
 import java.util.List;
 
+import static com.ziola.myfitnessapp.model.ROOM.*;
+import static com.ziola.myfitnessapp.model.ROOM.CYCLING;
+import static com.ziola.myfitnessapp.model.ROOM.STUDIO;
+
 /**
  * Created by mwypysiak on 2015-02-23.
  */
@@ -27,27 +31,26 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
         this.schedule = schedule;
     }
 
-    public void setSchedule(DailySchedule schedule) {
-        this.schedule = schedule;
-    }
-
     @Override
     public int getGroupCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((List) getGroup(groupPosition)).size();
+        List list = (List) getGroup(groupPosition);
+        return list != null ? list.size() : 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
         switch (groupPosition) {
             case 0:
-                return schedule.getStudioClasses();
+                return schedule.getClass(STUDIO);
             case 1:
-                return schedule.getFloorClasses();
+                return schedule.getClass(FLOOR);
+            case 2:
+                return schedule.getClass(CYCLING);
         }
         return null;
     }
@@ -56,9 +59,11 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         switch (groupPosition) {
             case 0:
-                return schedule.getStudioClasses().get(childPosition);
+                return schedule.getClass(STUDIO).get(childPosition);
             case 1:
-                return schedule.getFloorClasses().get(childPosition);
+                return schedule.getClass(FLOOR).get(childPosition);
+            case 2:
+                return schedule.getClass(CYCLING).get(childPosition);
         }
         return null;
     }
@@ -86,10 +91,13 @@ public class ClassesAdapter extends BaseExpandableListAdapter {
         }
         switch (groupPosition) {
             case 0:
-                ((TextView) convertView.findViewById(R.id.tvClassType)).setText(ROOM.STUDIO.getName());
+                ((TextView) convertView.findViewById(R.id.tvClassType)).setText(STUDIO.getName());
                 break;
             case 1:
-                ((TextView) convertView.findViewById(R.id.tvClassType)).setText(ROOM.FLOOR.getName());
+                ((TextView) convertView.findViewById(R.id.tvClassType)).setText(FLOOR.getName());
+                break;
+            case 2:
+                ((TextView) convertView.findViewById(R.id.tvClassType)).setText(CYCLING.getName());
                 break;
         }
         return convertView;

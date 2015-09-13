@@ -4,11 +4,10 @@
     <style name="AppTheme" parent="android:Theme.Material">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="android:colorPrimary">#673AB7</item>
+        <item name="android:colorPrimary">#3F51B5</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">#512DA8</item>
+        <item name="android:colorPrimaryDark">#303F9F</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">#FF3D00</item>
-        <item name="android:navigationBarColor">#673AB7</item>
+        <item name="android:colorAccent">#8BC34A</item>
     </style>
 </resources>
